@@ -45,19 +45,18 @@ stages:
       displayName: 'Run Tests'
 
 
-- stage: Test
-  displayName: 'Test Stage'
+- stage: Deploy
+  displayName: 'Deploy Stage'
   jobs:
-  - job: TestJob
-    displayName: 'Test'
-    steps:
-    - task: UsePythonVersion@0
-      inputs:
-        versionSpec: '3.x'
-        addToPath: true
-    - script: |
-        python -m pip install pytest
-        pytest test_hello_world.py
-      displayName: 'Run Tests'
+  - deployment: DeployJob
+    displayName: 'Deploy'
+    environment: 'Staging'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          # Add deployment steps here if needed
+          - script: echo "No deployment required for a simple Python script"
+            displayName: 'Deploy Application'
 
 
