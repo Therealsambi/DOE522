@@ -4,7 +4,7 @@ trigger:
 
 # Define the pool of agents to execute the pipeline jobs
 pool:
-  name: 'Default'
+  name: 'az400m03l03a-pool'
 
 
 # Define the stages of the pipeline
