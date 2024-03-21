@@ -4,8 +4,8 @@ trigger:
 
 # Define the pool of agents to execute the pipeline jobs
 pool:
-  name: 'az400m03l03a-pool'
-  image: 'windows'
+  vmImage: 'ubuntu-latest'
+
 
 
 # Define the stages of the pipeline
