@@ -1,0 +1,55 @@
+# Define triggers to run the pipeline when changes are made to the main branch
+trigger:
+- main
+
+# Define the pool of agents to execute the pipeline jobs
+pool:
+  vmImage: 'ubuntu-latest'
+
+  
+
+# Define the stages of the pipeline
+stages:
+- stage: Build
+  displayName: 'Build Stage'
+  jobs:
+  - job: BuildJob
+    displayName: 'Build'
+    steps:
+    - script: |
+        # Add commands here to compile your source code
+        # For example:
+        # npm install
+        # npm run build
+      displayName: 'Compile Source Code'
+    - task: PublishBuildArtifacts@1
+      inputs:
+        pathtoPublish: '$(Build.SourcesDirectory)'
+        artifactName: 'drop'
+        publishLocation: 'pipeline'
+
+- stage: Test
+  displayName: 'Test Stage'
+  jobs:
+  - job: TestJob
+    displayName: 'Test'
+    steps:
+    - script: |
+        # Add commands here to run unit tests and code quality checks
+        # For example:
+        # npm test
+        # sonar-scanner
+      displayName: 'Run Tests and Code Quality Checks'
+
+- stage: Deploy
+  displayName: 'Deploy Stage'
+  jobs:
+  - deployment: DeployJob
+    displayName: 'Deploy'
+    environment: 'Staging'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - script: |
+            displayName: 'Deploy Application'
